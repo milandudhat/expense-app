@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Post, Put, Param, Body } from '@nestjs/common';
+import { Controller, Delete, Get, Post, Put, Param, Body , HttpCode } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ReportType, data } from './data';
 import { v4 } from "uuid";
@@ -14,9 +14,8 @@ export class AppController {
     @Param("type") type: string
   ) {
     console.log(type);
-    // return ["Report 1", "Report 2"];
     const reportType = type === "income" ? ReportType.INCOME : ReportType.EXPENSE;
-    return data.report.filter(report => report.type === reportType);
+    return this.appService.getAllReports(reportType);
   }
 
   @Get(":id")
@@ -26,11 +25,8 @@ export class AppController {
   ) {
 
     const reportType = type === "income" ? ReportType.INCOME : ReportType.EXPENSE;
-
-    console.log(reportType);
-    console.log(id);
-
-    return data.report.filter(report => report.type === reportType).find(report => report.id === id) || "Report not found";
+    // return data.report.filter(report => report.type === reportType).find(report => report.id === id) || "Report not found";
+    return this.appService.getReportById(reportType, id);
   }
 
   @Post()
@@ -41,19 +37,8 @@ export class AppController {
       amount: number
     }
   ) {
-    // console.log(body);
-    const createReport = {
-      id: v4(),
-      source: body.source,
-      amount: body.amount,
-      created_at: new Date(),
-      updated_at: new Date(),
-      type: type === "income" ? ReportType.INCOME : ReportType.EXPENSE
-    }
-
-    console.log(createReport);
-    data.report.push(createReport);
-    return createReport;
+    const reportType = type === "income" ? ReportType.INCOME : ReportType.EXPENSE;
+    return this.appService.createReport(reportType, body);
 
   }
 
@@ -80,8 +65,23 @@ export class AppController {
     return data.report[reportIndex];
   }
 
+  @HttpCode(204)
   @Delete(":id")
-  deleteReport() {
+  deleteReport(
+    @Param("id") id: string
+  ) {
+    
+    const reportIndex = data.report.findIndex(report => report.id === id);
+    console.log(reportIndex);
+    
+    if(reportIndex === -1) return "Report not found";
+
+    data.report.splice(reportIndex, 1);
+
+    console.log(data.report);
+    
+
+
     return "Deleted";
   }
 }
