@@ -24,7 +24,6 @@ export class AppController {
   ) {
 
     const reportType = type === "income" ? ReportType.INCOME : ReportType.EXPENSE;
-    // return data.report.filter(report => report.type === reportType).find(report => report.id === id) || "Report not found";
     return this.appService.getReportById(reportType, id);
   }
 
