@@ -52,17 +52,7 @@ export class AppController {
     }
   ) {
     const reportType = type === "income" ? ReportType.INCOME : ReportType.EXPENSE;
-    const report = data.report.filter(report => report.type === reportType).find(report => report.id === id);
-    if(!report) return "Report not found";
-
-    const reportIndex = data.report.findIndex(report => report.id === id);
-
-    data.report[reportIndex] = {
-      ...data.report[reportIndex],
-      ...body,
-    }
-
-    return data.report[reportIndex];
+    return this.appService.updateReport(reportType, id, body);
   }
 
   @HttpCode(204)

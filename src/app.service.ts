@@ -28,10 +28,20 @@ export class AppService {
       amount: body.amount,
       created_at: new Date(),
       updated_at: new Date(),
-      type: type === "income" ? ReportType.INCOME : ReportType.EXPENSE
+      type: type
     }
     data.report.push(createReport);
     return createReport;
   }
 
+  updateReport( type :  ReportType , id : string , body : reportData ) {
+    const report = data.report.filter(report => report.type === type).find(report => report.id === id);
+    if(!report) return "Report not found";
+    const reportIndex = data.report.findIndex(report => report.id === id);
+    data.report[reportIndex] = {
+      ...data.report[reportIndex],
+      ...body,
+    }
+    return data.report[reportIndex];
+  }
 }
