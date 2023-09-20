@@ -41,7 +41,17 @@ export class AppService {
     data.report[reportIndex] = {
       ...data.report[reportIndex],
       ...body,
+      updated_at: new Date()
     }
     return data.report[reportIndex];
+  }
+
+  deleteReport(id : string ) {
+    const reportIndex = data.report.findIndex(report => report.id === id);
+    console.log(reportIndex);
+    if(reportIndex === -1) return "Report not found";
+    data.report.splice(reportIndex, 1);
+    console.log(data.report);
+    return "Deleted";
   }
 }
