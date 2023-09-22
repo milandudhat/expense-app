@@ -7,6 +7,11 @@ interface reportData {
   amount: number
 }
 
+interface updateReport {
+  source?: string,
+  amount?: number
+}
+
 @Injectable()
 export class AppService {
   getHello(): string {
@@ -34,7 +39,7 @@ export class AppService {
     return createReport;
   }
 
-  updateReport( type :  ReportType , id : string , body : reportData ) {
+  updateReport( type :  ReportType , id : string , body : updateReport ) {
     const report = data.report.filter(report => report.type === type).find(report => report.id === id);
     if(!report) return "Report not found";
     const reportIndex = data.report.findIndex(report => report.id === id);

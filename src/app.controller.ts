@@ -1,7 +1,7 @@
 import { Controller, Delete, Get, Post, Put, Param, Body , HttpCode , ParseUUIDPipe , ParseEnumPipe } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ReportType } from './data';
-import { CreateReportDto } from './dtos/report.dto';
+import { CreateReportDto , UpdateReportDto } from './dtos/report.dto';
 
 
 
@@ -42,10 +42,7 @@ export class AppController {
   updateReport(
     @Param("type" , new ParseEnumPipe(ReportType)) type: string,
     @Param("id" , ParseUUIDPipe) id: string,
-    @Body() body: {
-      source: string,
-      amount: number
-    }
+    @Body() body: UpdateReportDto
   ) {
     const reportType = type === "income" ? ReportType.INCOME : ReportType.EXPENSE;
     return this.appService.updateReport(reportType, id, body);
