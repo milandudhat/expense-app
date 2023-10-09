@@ -20,6 +20,7 @@ export class CustomInterceptor implements NestInterceptor {
                 // You can modify the response data here if needed
                 console.log("This is the interceptor for response");
                 console.log({ data });
+                
                 const response = {
                     ...data,
                     createAt : data.created_at,
