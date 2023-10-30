@@ -7,12 +7,14 @@ export class SummaryService {
     constructor(private readonly reportService: ReportService) { }
     calculateSummary() {
 
-        const allExpenses = this.reportService.getAllReports(ReportType.EXPENSE);
+        const totalExpense = this.reportService.getAllReports(ReportType.EXPENSE).reduce((total, report) => total + report.amount, 0);
+        const totalIncome = this.reportService.getAllReports(ReportType.INCOME).reduce((total, report) => total + report.amount, 0);
+        const netIncome = totalIncome - totalExpense;
 
         return  {
-            totalIncome: 100,
-            totalExpense: 10,
-            netIncome: 100 - 10
+            totalExpense,
+            totalIncome,
+            netIncome
         }
     }
 }

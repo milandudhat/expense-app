@@ -5,7 +5,7 @@ import { ReportModule } from 'src/report/report.module';
 // import { ReportService } from 'src/report/report.service';
 
 @Module({
-  imports : [ ReportModule],
+  imports : [ReportModule],
   controllers: [SummaryController],
   providers: [SummaryService],
 

@@ -36,6 +36,13 @@ export const data: Data = {
         created_at: new Date(),
         updated_at: new Date(),
         type: ReportType.EXPENSE
+    },{
+        id: "uuid4",
+        source: "Mobile",
+        amount: 5000,
+        created_at: new Date(),
+        updated_at: new Date(),
+        type: ReportType.EXPENSE
     }]
 }
 
